@@ -1,3 +1,7 @@
+# TODO-CLI
+
+Simple todo cli app that manages a list of items
+
 TODO:
 
     1. Make it list as a table
@@ -7,3 +11,9 @@ TODO:
         b. make flags work without -
     4. Where to save TODO data for user
     5. Make it list todos when opening terminal
+
+Make sure that the GOPATH is in your path:
+
+    ```sh
+        export PATH=$PATH:$HOME/go/bin
+    ```
