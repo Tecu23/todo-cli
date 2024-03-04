@@ -33,6 +33,11 @@ func main() {
 		fmt.Fprint(os.Stderr, fmt.Sprint(usage))
 	}
 
+	flag.Parse()
+	if flag.NArg() < 1 {
+		usageAndExit("")
+	}
+
 	var cmd *command.Command
 
 	switch os.Args[1] {
