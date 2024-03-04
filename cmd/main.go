@@ -6,25 +6,25 @@ import (
 	"fmt"
 	"os"
 
-	command "github.com/Tecu23/todo-cli/cmd/commands"
+	command "github.com/Tecu23/todo-cli/cmd/command"
 )
 
 const (
 	todoFile = ".todos.json"
 )
 
-var usage = `Usage: gupi command [options]
+var usage = `Usage: todo-cli command [options]
 
-A simple tool to generate and manage custom templates
+A simple tool to manage custom todos from the terminal
 
 Options:
 
 Commands:
-  add		Adds a template to the collection from a local file
-  edit		Uses the default text editor to modify a stored template
-  list		Lists all stored templates
-  create	Generates an instance of a template in the current directory
-  delete	Removes a stored template
+  add		Adds one or more todos to the todo list
+  edit		Edits the name or the category of the todo
+  list		Lists all todos stored
+  complete	Marks a todo as completed
+  delete	Removes a stored todo
   version	Prints version info to console
 `
 
@@ -42,9 +42,17 @@ func main() {
 
 	switch os.Args[1] {
 	case "version":
-		cmd = command.NewVersionCommand()
+		cmd = command.PrintVersion()
 	case "add":
-		cmd = command.NewAddCommand()
+		cmd = command.AddTodos()
+	case "edit":
+		cmd = command.EditTodo()
+	case "list":
+		cmd = command.ListTodos()
+	case "complete":
+		cmd = command.CompleteTodo()
+	case "delete":
+		cmd = command.DeleteTodo()
 	default:
 		usageAndExit(fmt.Sprintf("gupi: %s is not a gupi command.\n", os.Args[1]))
 	}

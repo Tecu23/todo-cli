@@ -8,7 +8,7 @@ import (
 
 var versionUsage = `Print the app version and build info for the current context.
 
-Usage: gupi version [options]
+Usage: todo-cli version [options]
 
 Options:
   --short  If true, print just the version number. Default false.
@@ -22,15 +22,15 @@ var (
 
 var versionFunc = func(cmd *Command, args []string) {
 	if short {
-		fmt.Printf("brief version: v%s", version)
+		fmt.Printf("todo-cli version: v%s", version)
 	} else {
-		fmt.Printf("brief version: v%s, build: %s", version, build)
+		fmt.Printf("todo-cli version: v%s, build: %s", version, build)
 	}
 
 	os.Exit(0)
 }
 
-func NewVersionCommand() *Command {
+func PrintVersion() *Command {
 	cmd := &Command{
 		flags:   flag.NewFlagSet("version", flag.ExitOnError),
 		Execute: versionFunc,
