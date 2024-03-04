@@ -9,7 +9,7 @@ ldflags += -X 'github.com/Tecu23/todo-cli/cmd/command.build=$(build)'"
 build:
 	go build -o $(binary) $(ldflags) ${path}
 
-install: export GOPATH=$${HOME}/go
+install: export GOPATH=${HOME}/go
 install:
 	mv $(binary) $(GOPATH)/${binary}
 
