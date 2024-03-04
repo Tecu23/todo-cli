@@ -2,99 +2,58 @@
 package main
 
 import (
-	"bufio"
-	"errors"
 	"flag"
 	"fmt"
-	"io"
 	"os"
-	"strings"
 
-	todo "github.com/Tecu23/todo-cli/internal"
+	command "github.com/Tecu23/todo-cli/cmd/commands"
 )
 
 const (
 	todoFile = ".todos.json"
 )
 
+var usage = `Usage: gupi command [options]
+
+A simple tool to generate and manage custom templates
+
+Options:
+
+Commands:
+  add		Adds a template to the collection from a local file
+  edit		Uses the default text editor to modify a stored template
+  list		Lists all stored templates
+  create	Generates an instance of a template in the current directory
+  delete	Removes a stored template
+  version	Prints version info to console
+`
+
 func main() {
-	add := flag.Bool("add", false, "add a new todo")
-	complete := flag.Int("complete", 0, "mark a todo as completed")
-	del := flag.Int("delete", 0, "delete a todo")
-	list := flag.Bool("list", false, "list all todos")
-
-	flag.Parse()
-
-	todos := &todo.Todos{}
-
-	if err := todos.Load(todoFile); err != nil {
-		fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(1)
+	flag.Usage = func() {
+		fmt.Fprint(os.Stderr, fmt.Sprint(usage))
 	}
 
-	switch {
-	case *add:
-		task, err := getInput(os.Stdin, flag.Args()...)
-		if err != nil {
-			fmt.Fprintln(os.Stdout, err.Error())
-			os.Exit(1)
-		}
+	var cmd *command.Command
 
-		todos.Add(task)
-
-		err = todos.Store(todoFile)
-		if err != nil {
-			fmt.Fprintln(os.Stdout, err.Error())
-			os.Exit(1)
-		}
-	case *complete > 0:
-		err := todos.Complete(*complete)
-		if err != nil {
-			fmt.Fprintln(os.Stdout, err.Error())
-			os.Exit(1)
-		}
-		err = todos.Store(todoFile)
-		if err != nil {
-			fmt.Fprintln(os.Stdout, err.Error())
-			os.Exit(1)
-		}
-	case *del > 0:
-		err := todos.Delete(*del)
-		if err != nil {
-			fmt.Fprintln(os.Stdout, err.Error())
-			os.Exit(1)
-		}
-		err = todos.Store(todoFile)
-		if err != nil {
-			fmt.Fprintln(os.Stdout, err.Error())
-			os.Exit(1)
-		}
-	case *list:
-		todos.Print()
+	switch os.Args[1] {
+	case "version":
+		cmd = command.NewVersionCommand()
+	case "add":
+		cmd = command.NewAddCommand()
 	default:
-		fmt.Fprintln(os.Stdout, "invalid command")
-		os.Exit(1)
-
+		usageAndExit(fmt.Sprintf("gupi: %s is not a gupi command.\n", os.Args[1]))
 	}
+
+	cmd.Init(os.Args[2:])
+	cmd.Run()
 }
 
-func getInput(r io.Reader, args ...string) (string, error) {
-	if len(args) > 0 {
-		return strings.Join(args, " "), nil
+func usageAndExit(msg string) {
+	if msg != "" {
+		fmt.Fprint(os.Stderr, msg)
+		fmt.Fprintf(os.Stderr, "\n")
 	}
 
-	scanner := bufio.NewScanner(r)
-	scanner.Scan()
-
-	if err := scanner.Err(); err != nil {
-		return "", err
-	}
-
-	text := scanner.Text()
-
-	if len(text) == 0 {
-		return "", errors.New("empty todo is not allowed")
-	}
-
-	return text, nil
+	flag.Usage()
+	os.Exit(0)
 }
