@@ -13,9 +13,15 @@ install: export GOPATH=${HOME}/go
 install:
 	mv $(binary) $(GOPATH)/${binary}
 
+uninstall: export GOPATH=${HOME}/go
+uninstall:
+	rm ${GOPATH}/${binary}
+
 test:
 	go test ./... -cover -coverprofile c.out
 	go tool cover -html=c.out -o coverage.html
 
 clean:
 	rm -rf $(binary) c.out coverage.html
+
+
