@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	todo "github.com/Tecu23/todo-cli/internal"
 )
 
 var listUsage = `List all currently available templates.
@@ -14,11 +16,14 @@ Options:
 `
 
 var listFunc = func(cmd *Command, args []string) {
-	if cmd.flags.NArg() == 0 {
+	todos := todo.Todos{}
+
+	err := todos.Load(todoFile)
+	if err != nil {
 		cmd.flags.Usage()
 	}
 
-	// Print all todos in a nice format
+	todos.Print()
 
 	os.Exit(1)
 }

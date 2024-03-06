@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+const todoFile = ".todos.json"
+
 type Command struct {
 	flags   *flag.FlagSet
 	Execute func(cmd *Command, args []string)
