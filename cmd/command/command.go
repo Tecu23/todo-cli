@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-const todoFile = ".todos.json"
+var todoFile = "???"
 
 type Command struct {
 	flags   *flag.FlagSet

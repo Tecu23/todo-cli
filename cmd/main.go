@@ -9,10 +9,6 @@ import (
 	command "github.com/Tecu23/todo-cli/cmd/command"
 )
 
-const (
-	todoFile = ".todos.json"
-)
-
 var usage = `Usage: todo-cli command [options]
 
 A simple tool to manage custom todos from the terminal
