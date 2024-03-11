@@ -4,6 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
+
+	todo "github.com/Tecu23/todo-cli/internal"
 )
 
 var editUsage = `Edit a todo name using the todo id
@@ -18,11 +21,32 @@ var editFunc = func(cmd *Command, args []string) {
 		cmd.flags.Usage()
 	}
 
-	// Find Todo by id
+	id, err := strconv.Atoi(args[0])
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 
-	// Change name of todo
+	todos := todo.Todos{}
 
-	// Save todos to file
+	err = todos.Load(todoFile)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	err = todos.Edit(args[1], id)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	err = todos.Store(todoFile)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
 	os.Exit(0)
 }
 

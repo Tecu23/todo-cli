@@ -4,6 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
+
+	todo "github.com/Tecu23/todo-cli/internal"
 )
 
 var completeUsage = `Complete a todo by specifying the id
@@ -18,11 +21,31 @@ var completeFunc = func(cmd *Command, args []string) {
 		cmd.flags.Usage()
 	}
 
-	// Find todo by id
+	id, err := strconv.Atoi(args[0])
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 
-	// Mark todo as completed
+	todos := todo.Todos{}
 
-	// Store new todos
+	err = todos.Load(todoFile)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	err = todos.Complete(id)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	err = todos.Store(todoFile)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 
 	os.Exit(0)
 }

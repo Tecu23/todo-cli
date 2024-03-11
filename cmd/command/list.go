@@ -25,7 +25,7 @@ var listFunc = func(cmd *Command, args []string) {
 
 	todos.Print()
 
-	os.Exit(1)
+	os.Exit(0)
 }
 
 // ListTodos prints all todos in order

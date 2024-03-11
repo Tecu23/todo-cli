@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	todo "github.com/Tecu23/todo-cli/internal"
 )
 
 var addUsage = `Add one or more todos to the list
@@ -18,9 +20,23 @@ var addFunc = func(cmd *Command, args []string) {
 		cmd.flags.Usage()
 	}
 
-	// Add todo to the list
+	todos := todo.Todos{}
 
-	// Save todos in file
+	err := todos.Load(todoFile)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	for _, a := range args {
+		todos.Add(a)
+	}
+
+	err = todos.Store(todoFile)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 
 	os.Exit(0)
 }
