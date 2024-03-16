@@ -46,17 +46,21 @@ bin directory. Or simply run the following commands:
 To add a new todo, use the following command:
 
 ```bash
-todo add "Task description"
+    todo add "Task description"
 ```
 
-Replace `"Task description"` with the description of the task you want to add.
+To add multiple todos at once, you specify the name of the todos separated by a space:
+
+```bash
+    todo add "Task 1" "Task 2" ...
+```
 
 ### List
 
 To list all todos, use the following command:
 
 ```bash
-todo list
+    todo list
 ```
 
 This will display all the todos along with their status (completed or pending).
@@ -66,27 +70,30 @@ This will display all the todos along with their status (completed or pending).
 To mark a todo as completed, use the following command:
 
 ```bash
-todo complete <todo_id>
+    todo complete <todo_id>
 ```
 
-Replace `<todo_id>` with the ID of the todo you want to mark as completed. You can find the ID by listing all todos.
+Replace `<todo_id>` with the ID of the todo you want to mark as completed.
+You can find the ID by listing all todos.
 
 ### Edit
 
 To edit the name of a todo, use the following command:
 
 ```bash
-todo edit <todo_id> "New task description"
+    todo edit <todo_id> "New task description"
 ```
 
-Replace `<todo_id>` with the ID of the todo you want to edit and `"New task description"` with the updated description.
+Replace `<todo_id>` with the ID of the todo you want to edit and `"New task description"`
+with the updated description.
 
 ### Delete
 
 To delete a todo, use the following command:
 
 ```bash
-todo delete <todo_id>
+    todo delete <todo_id>
 ```
 
-Replace `<todo_id>` with the ID of the todo you want to delete. Be careful, this action is irreversible.
+Replace `<todo_id>` with the ID of the todo you want to delete.
+Be careful, this action is irreversible.
