@@ -19,6 +19,7 @@ Options:
 var editFunc = func(cmd *Command, args []string) {
 	if cmd.flags.NArg() == 0 {
 		cmd.flags.Usage()
+		os.Exit(0)
 	}
 
 	id, err := strconv.Atoi(args[0])
