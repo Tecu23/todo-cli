@@ -2,7 +2,7 @@
 FILEPATH = ${HOME}/.local/share/todo-cli/todos.json
 path 	 = ./cmd/main.go
 binary   = bin/todo-cli
-version  = 1.0.0
+version  = 1.0.1
 build	   = $(shell git rev-parse HEAD)
 ldflags  = -ldflags "-X 'github.com/Tecu23/todo-cli/cmd/command.version=$(version)'
 ldflags += -X 'github.com/Tecu23/todo-cli/cmd/command.build=$(build)'
